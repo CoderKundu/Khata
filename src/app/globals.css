@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
+/*
+ * One fixed light theme. No prefers-color-scheme switch: this is read at a
+ * shop counter in daylight, on one phone, and a surprise dark mode would only
+ * make the numbers harder to see.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #faf8f5;
+  --surface: #ffffff;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #a8a29e;
+  --line: #e7e2da;
+  --due: #b91c1c;
+  --paid: #15803d;
+  --brand: #0f766e;
+  --brand-dark: #115e59;
+  --pending: #b45309;
+  --pending-bg: #fef3c7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-due: var(--due);
+  --color-paid: var(--paid);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-pending: var(--pending);
+  --color-pending-bg: var(--pending-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+  /* Stop iOS/Android from reflowing the whole layout when a keyboard opens. */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Money should never jitter as digits change. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/*
+ * Anything tappable gets a real thumb target. 44px is the documented minimum;
+ * primary actions here are larger because they are used one-handed, standing.
+ */
+@utility tap {
+  min-height: 44px;
+  min-width: 44px;
 }
