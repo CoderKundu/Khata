@@ -19,7 +19,7 @@ export function ArchiveButton({
       action={archiveCustomer}
       onSubmit={(event) => {
         const ok = window.confirm(
-          `${name} ko list se hataayein?\n\nHisaab mitega nahi, sirf list se chhup jayega.`,
+          `Remove ${name} from the list?\n\nPast entries are kept. Only the list hides them.`,
         );
         if (!ok) event.preventDefault();
       }}
@@ -30,7 +30,7 @@ export function ArchiveButton({
         className="tap w-full h-12 rounded-xl border border-line text-ink-soft font-medium
                    active:bg-paper"
       >
-        List se hatao
+        Remove from list
       </button>
     </form>
   );

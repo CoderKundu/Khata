@@ -14,12 +14,12 @@ export async function login(
   const password = formData.get("password");
 
   if (typeof password !== "string" || password.length === 0) {
-    return { error: "Password daaliye" };
+    return { error: "Enter the password" };
   }
 
   if (!passwordMatches(password)) {
     // Deliberately vague, and identical for every kind of wrong input.
-    return { error: "Password galat hai" };
+    return { error: "Wrong password" };
   }
 
   await startSession();

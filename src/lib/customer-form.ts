@@ -50,16 +50,16 @@ export function parseCustomerForm(formData: FormData): CustomerParseResult {
   const errors: CustomerFieldErrors = {};
 
   if (name === "") {
-    errors.name = "Naam daaliye";
+    errors.name = "Enter a name";
   } else if (name.length > 80) {
-    errors.name = "Naam bahut lamba hai";
+    errors.name = "Name is too long";
   }
 
   const phone = normalizePhone(rawPhone);
   if (rawPhone === "") {
-    errors.phone = "Number daaliye";
+    errors.phone = "Enter a mobile number";
   } else if (phone === null) {
-    errors.phone = "10 ank ka mobile number daaliye";
+    errors.phone = "Enter a valid 10-digit mobile number";
   }
 
   if (errors.name || errors.phone) return { ok: false, errors };

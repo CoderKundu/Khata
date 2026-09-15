@@ -25,7 +25,7 @@ export default async function EditCustomerPage({
         <Link
           href={`/customer/${customer.id}`}
           className="tap flex items-center justify-center px-2 text-2xl text-ink-soft"
-          aria-label="Wapas"
+          aria-label="Back"
         >
           ←
         </Link>
@@ -42,12 +42,12 @@ export default async function EditCustomerPage({
         <div className="border-t border-line pt-6">
           {blockedByBalance ? (
             <p role="alert" className="mb-3 text-due font-medium">
-              Bakaya baaki hai, isliye list se nahi hata sakte.
+              Money is still outstanding, so this customer cannot be removed.
             </p>
           ) : null}
           <ArchiveButton id={customer.id} name={customer.name} />
           <p className="mt-2 text-sm text-ink-faint text-center">
-            Puraana hisaab surakshit rahega.
+            Past entries are kept.
           </p>
         </div>
       </div>

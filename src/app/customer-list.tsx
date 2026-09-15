@@ -52,7 +52,7 @@ export function CustomerList({
         {children}
 
         <div className="px-4 pb-3">
-          <p className="text-sm text-ink-soft">Kul bakaya</p>
+          <p className="text-sm text-ink-soft">Total outstanding</p>
           <p
             className={`text-4xl font-bold tnum ${
               totalPaise > 0 ? "text-due" : "text-ink-faint"
@@ -68,8 +68,8 @@ export function CustomerList({
             inputMode="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Naam ya number dhoondhein"
-            aria-label="Grahak dhoondhein"
+            placeholder="Search name or number"
+            aria-label="Search customers"
             className="w-full tap h-12 rounded-xl border border-line bg-surface px-4 text-base
                        outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
@@ -77,10 +77,10 @@ export function CustomerList({
       </header>
 
       {matches.length === 0 ? (
-        <p className="px-6 py-14 text-center text-ink-soft leading-relaxed">
+        <p className="px-6 py-14 text-center text-ink-soft leading-relaxed whitespace-pre-line">
           {customers.length === 0
-            ? "Abhi koi grahak nahi.\nNeeche + dabaiye."
-            : "Koi grahak nahi mila."}
+            ? "No customers yet.\nTap + below to add one."
+            : "No customer found."}
         </p>
       ) : (
         <ul className="divide-y divide-line border-b border-line bg-surface">

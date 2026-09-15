@@ -12,7 +12,7 @@ export default async function NewCustomerPage() {
         <Link
           href="/"
           className="tap flex items-center justify-center px-2 text-2xl text-ink-soft"
-          aria-label="Wapas"
+          aria-label="Back"
         >
           ←
         </Link>

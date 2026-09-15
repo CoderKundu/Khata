@@ -35,14 +35,14 @@ export async function updateCustomer(
 
   const id = formData.get("id");
   if (typeof id !== "string" || id === "") {
-    return { errors: {}, formError: "Grahak nahi mila" };
+    return { errors: {}, formError: "Customer not found" };
   }
 
   const parsed = parseCustomerForm(formData);
   if (!parsed.ok) return { errors: parsed.errors, formError: null };
 
   const existing = await getCustomer(id);
-  if (!existing) return { errors: {}, formError: "Grahak nahi mila" };
+  if (!existing) return { errors: {}, formError: "Customer not found" };
 
   await prisma.customer.update({ where: { id }, data: parsed.value });
 

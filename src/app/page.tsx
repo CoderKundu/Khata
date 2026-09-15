@@ -24,7 +24,7 @@ export default async function HomePage() {
               type="submit"
               className="tap px-2 text-sm text-ink-soft underline underline-offset-4"
             >
-              Band karo
+              Log out
             </button>
           </form>
         </div>

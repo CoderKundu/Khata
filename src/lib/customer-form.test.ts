@@ -66,7 +66,7 @@ describe("parseCustomerForm", () => {
     const result = parseCustomerForm(form({ name: "", phone: "" }));
     expect(result).toEqual({
       ok: false,
-      errors: { name: "Naam daaliye", phone: "Number daaliye" },
+      errors: { name: "Enter a name", phone: "Enter a mobile number" },
     });
   });
 
@@ -76,9 +76,9 @@ describe("parseCustomerForm", () => {
 
     expect(missing.ok).toBe(false);
     expect(invalid.ok).toBe(false);
-    expect(!missing.ok && missing.errors.phone).toBe("Number daaliye");
+    expect(!missing.ok && missing.errors.phone).toBe("Enter a mobile number");
     expect(!invalid.ok && invalid.errors.phone).toBe(
-      "10 ank ka mobile number daaliye",
+      "Enter a valid 10-digit mobile number",
     );
   });
 
@@ -86,6 +86,6 @@ describe("parseCustomerForm", () => {
     const result = parseCustomerForm(
       form({ name: "x".repeat(81), phone: "9876543210" }),
     );
-    expect(!result.ok && result.errors.name).toBe("Naam bahut lamba hai");
+    expect(!result.ok && result.errors.name).toBe("Name is too long");
   });
 });

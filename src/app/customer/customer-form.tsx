@@ -39,7 +39,7 @@ export function CustomerForm({
 
       <Field
         id="name"
-        label="Naam"
+        label="Name"
         error={state.errors.name}
         defaultValue={values.name}
         autoFocus={!values.id}
@@ -55,7 +55,7 @@ export function CustomerForm({
         type="tel"
         inputMode="numeric"
         autoComplete="tel"
-        hint="10 ank, bina +91"
+        hint="10 digits, no +91"
       />
 
       <Field
@@ -63,7 +63,7 @@ export function CustomerForm({
         label="Note"
         defaultValue={values.note ?? undefined}
         autoCapitalize="sentences"
-        hint="Jaise: Sharma Construction, Alambagh site"
+        hint="e.g. Sharma Construction, Alambagh site"
         optional
       />
 
@@ -106,7 +106,7 @@ function Field({
       <label htmlFor={id} className="block text-sm font-medium text-ink-soft mb-2">
         {label}
         {optional ? (
-          <span className="font-normal text-ink-faint"> (zaroori nahi)</span>
+          <span className="font-normal text-ink-faint"> (optional)</span>
         ) : null}
       </label>
 

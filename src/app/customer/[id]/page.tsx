@@ -21,7 +21,7 @@ export default async function CustomerPage({
           <Link
             href="/"
             className="tap flex items-center justify-center px-2 text-2xl text-ink-soft"
-            aria-label="Wapas"
+            aria-label="Back"
           >
             ←
           </Link>
@@ -29,7 +29,7 @@ export default async function CustomerPage({
             href={`/customer/${customer.id}/edit`}
             className="tap flex items-center px-3 text-sm text-ink-soft underline underline-offset-4"
           >
-            Badlav
+            Edit
           </Link>
         </div>
 
@@ -45,7 +45,7 @@ export default async function CustomerPage({
             <p className="mt-1 text-sm text-ink-soft">{customer.note}</p>
           ) : null}
 
-          <p className="mt-5 text-sm text-ink-soft">Bakaya</p>
+          <p className="mt-5 text-sm text-ink-soft">Outstanding</p>
           <p
             className={`text-4xl font-bold tnum ${
               customer.outstandingPaise > 0 ? "text-due" : "text-ink-faint"
@@ -58,7 +58,7 @@ export default async function CustomerPage({
 
       {/* Step 4 puts the two action buttons and the entries table here. */}
       <p className="px-6 py-14 text-center text-ink-soft">
-        Hisaab ki list yahan aayegi.
+        Entries will appear here.
       </p>
     </main>
   );
