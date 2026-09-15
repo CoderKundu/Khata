@@ -1,0 +1,63 @@
+// Khata — credit ledger for a hardware shop.
+//
+// Two hard rules live in this file's shape:
+//   1. Money is always an integer count of paise. There is no Float/Decimal here
+//      and there must never be one.
+//   2. There is no balance column. A customer's outstanding is always recomputed
+//      as sum(DEBIT) - sum(CREDIT that actually landed). A stored balance is a
+//      second source of truth that drifts, and this is someone's real money.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String // 10-digit Indian mobile, no country code
+  note      String? // e.g. "Sharma Construction, Alambagh site"
+  createdAt DateTime @default(now())
+  archived  Boolean  @default(false)
+  entries   Entry[]
+
+  @@index([archived, name])
+}
+
+model Entry {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  type       EntryType // DEBIT = goods taken, CREDIT = payment received
+  amountPaise Int // money in paise, integer, always
+  note       String?
+  entryDate  DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  // Soft delete. Financial rows are never removed, only struck off, so a
+  // mis-tap can be undone and the history stays readable.
+  deletedAt DateTime?
+
+  // payment-link fields, null for manual entries
+  razorpayLinkId  String?        @unique
+  razorpayLinkUrl String?
+  paymentStatus   PaymentStatus?
+
+  @@index([customerId, entryDate])
+}
+
+enum EntryType {
+  DEBIT
+  CREDIT
+}
+
+enum PaymentStatus {
+  CREATED
+  PAID
+  CANCELLED
+  EXPIRED
+}
