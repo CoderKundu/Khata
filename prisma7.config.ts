@@ -8,6 +8,13 @@ export default defineConfig({
     seed: "tsx prisma/seed.ts",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    /*
+     * The CLI (migrate, db seed, studio) talks to the database directly.
+     * Neon's pooled endpoint sits behind PgBouncer in transaction mode, which
+     * does not support the schema-changing statements a migration runs, so
+     * migrations use the unpooled URL. The app itself uses the pooled one —
+     * see src/lib/prisma.ts.
+     */
+    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
   },
 });
