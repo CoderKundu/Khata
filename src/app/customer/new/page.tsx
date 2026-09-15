@@ -19,7 +19,7 @@ export default async function NewCustomerPage() {
         <h1 className="text-lg font-semibold">Naya grahak</h1>
       </header>
 
-      <CustomerForm action={createCustomer} submitLabel="Jodo" />
+      <CustomerForm action={createCustomer} submitLabel="Add customer" />
     </main>
   );
 }

@@ -18,7 +18,7 @@ export type CustomerFormValues = {
   note?: string | null;
 };
 
-/** Shared by "naya grahak" and "badlav" — the fields are identical. */
+/** Shared by the new-customer and edit screens — the fields are identical. */
 export function CustomerForm({
   action,
   values = {},
@@ -79,7 +79,7 @@ export function CustomerForm({
         className="tap h-14 rounded-xl bg-brand text-white text-lg font-semibold
                    active:bg-brand-dark disabled:opacity-60"
       >
-        {isPending ? "Ruko…" : submitLabel}
+        {isPending ? "Saving…" : submitLabel}
       </button>
     </form>
   );

@@ -49,7 +49,7 @@ export function LoginForm({ next }: { next: string }) {
         className="tap h-14 rounded-xl bg-brand text-white text-lg font-semibold
                    active:bg-brand-dark disabled:opacity-60"
       >
-        {isPending ? "Ruko…" : "Khulo"}
+        {isPending ? "Logging in…" : "Log in"}
       </button>
     </form>
   );

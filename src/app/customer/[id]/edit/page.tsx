@@ -35,7 +35,7 @@ export default async function EditCustomerPage({
       <CustomerForm
         action={updateCustomer}
         values={customer}
-        submitLabel="Save karo"
+        submitLabel="Save"
       />
 
       <div className="px-4 pt-2">

@@ -21,9 +21,9 @@ export type ParseResult =
 export function parseRupeesToPaise(input: string): ParseResult {
   const cleaned = input.trim().replace(/[,\s₹]/g, "");
 
-  if (cleaned === "") return { ok: false, error: "Amount daaliye" };
+  if (cleaned === "") return { ok: false, error: "Enter an amount" };
   if (!/^\d+(\.\d{1,2})?$/.test(cleaned)) {
-    return { ok: false, error: "Sirf number, do decimal tak" };
+    return { ok: false, error: "Numbers only, up to two decimals" };
   }
 
   const [rupeePart, paisePart = ""] = cleaned.split(".");
@@ -33,14 +33,14 @@ export function parseRupeesToPaise(input: string): ParseResult {
   const paise = Number(paiseDigits);
 
   if (!Number.isSafeInteger(rupees)) {
-    return { ok: false, error: "Amount bahut bada hai" };
+    return { ok: false, error: "Amount is too large" };
   }
 
   const total = rupees * 100 + paise;
 
-  if (total <= 0) return { ok: false, error: "Amount zero se zyada ho" };
+  if (total <= 0) return { ok: false, error: "Amount must be more than zero" };
   if (total > MAX_AMOUNT_PAISE) {
-    return { ok: false, error: "Amount bahut bada hai" };
+    return { ok: false, error: "Amount is too large" };
   }
 
   return { ok: true, paise: total };
