@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { BottomSheet } from "@/app/bottom-sheet";
+import { useToast } from "@/app/toast";
 import { emptyDeleteEntryState, formatEntryDate } from "@/lib/entry-form";
 import type { LedgerRow } from "@/lib/ledger-rows";
 import { formatRupees } from "@/lib/money";
@@ -28,11 +29,15 @@ export function EntryDetailSheet({
     emptyDeleteEntryState,
   );
 
+  const toast = useToast();
+
   // Once the row is struck off, this sheet is describing something that is no
   // longer in the ledger, so it gets out of the way.
   useEffect(() => {
-    if (state.deleted) onClose();
-  }, [state.deleted, onClose]);
+    if (!state.deleted) return;
+    onClose();
+    toast("Entry deleted");
+  }, [state.deleted, onClose, toast]);
 
   return (
     <BottomSheet open onClose={onClose} title="Entry">

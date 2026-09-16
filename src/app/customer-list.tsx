@@ -66,6 +66,10 @@ export function CustomerList({
           <input
             type="search"
             inputMode="search"
+            enterKeyHint="search"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search name or number"

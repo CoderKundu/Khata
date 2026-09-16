@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { BottomSheet } from "@/app/bottom-sheet";
+import { useToast } from "@/app/toast";
 import {
   type EntryFormState,
   emptyEntryFormState,
@@ -41,9 +42,13 @@ export function EntrySheet({
   // where the timezone is Vercel's and not the shop's.
   const [today] = useState(todayISO);
 
+  const toast = useToast();
+
   useEffect(() => {
-    if (state.saved) onClose();
-  }, [state.saved, onClose]);
+    if (!state.saved) return;
+    onClose();
+    toast(tone === "debit" ? "Goods added" : "Payment recorded");
+  }, [state.saved, onClose, toast, tone]);
 
   return (
     <BottomSheet open onClose={onClose} title={title}>

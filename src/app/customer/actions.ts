@@ -21,7 +21,18 @@ export async function createCustomer(
   const parsed = parseCustomerForm(formData);
   if (!parsed.ok) return { errors: parsed.errors, formError: null };
 
-  const created = await prisma.customer.create({ data: parsed.value });
+  let created: { id: string };
+  try {
+    created = await prisma.customer.create({ data: parsed.value });
+  } catch (error) {
+    // A thrown action never reaches useActionState; the form would hang on
+    // "Saving…" with no way to tell whether the customer was created.
+    console.error("createCustomer failed", error);
+    return {
+      errors: {},
+      formError: "Could not save. Check the connection and try again.",
+    };
+  }
 
   revalidatePath("/");
   redirect(`/customer/${created.id}`);

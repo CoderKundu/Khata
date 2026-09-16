@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { BottomSheet } from "@/app/bottom-sheet";
+import { useToast } from "@/app/toast";
 import { formatRupees, paiseToRupeeString } from "@/lib/money";
 import { emptyPaymentLinkState } from "@/lib/payment-link-state";
 import { sendPaymentLink } from "./payment-link-actions";
@@ -24,6 +25,7 @@ export function PaymentLinkSheet({
 
   const whatsappRef = useRef<HTMLAnchorElement>(null);
   const [copied, setCopied] = useState(false);
+  const toast = useToast();
 
   /*
    * Once the link exists, hand straight off to WhatsApp — that is the whole
@@ -72,8 +74,10 @@ export function PaymentLinkSheet({
                 setCopied(true);
               } catch {
                 // Clipboard is blocked on insecure origins and in some
-                // in-app browsers. The link is on screen either way.
+                // in-app browsers. The link is on screen either way, so say
+                // so rather than looking broken.
                 setCopied(false);
+                toast("Could not copy. The link is shown above.", "error");
               }
             }}
             className="mt-3 tap h-12 w-full rounded-xl border border-line font-medium

@@ -38,7 +38,7 @@ export default async function CustomerPage({
         </div>
 
         <div className="px-4 pb-5 pt-1">
-          <h1 className="text-2xl font-bold">{customer.name}</h1>
+          <h1 className="text-2xl font-bold break-words">{customer.name}</h1>
           <a
             href={`tel:+91${customer.phone}`}
             className="inline-block tap text-ink-soft tnum underline underline-offset-4"

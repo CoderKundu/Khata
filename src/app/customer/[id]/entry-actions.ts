@@ -40,9 +40,24 @@ async function addEntry(
   const customer = await getCustomer(customerId);
   if (!customer) return { errors: {}, formError: "Customer not found", saved: false };
 
-  await prisma.entry.create({
-    data: { ...parsed.value, customerId, type },
-  });
+  try {
+    await prisma.entry.create({
+      data: { ...parsed.value, customerId, type },
+    });
+  } catch (error) {
+    /*
+     * A thrown Server Action does not reach useActionState — the sheet would
+     * sit on "Saving…" forever with the amount still typed in and no way to
+     * tell whether it saved. On shop wifi that is not a rare case, so the
+     * failure comes back as state the sheet can show.
+     */
+    console.error("addEntry failed", error);
+    return {
+      errors: {},
+      formError: "Could not save. Check the connection and try again.",
+      saved: false,
+    };
+  }
 
   revalidatePath("/");
   revalidatePath(`/customer/${customerId}`);
@@ -88,10 +103,16 @@ export async function deleteEntry(
   }
 
   // Scoped to the customer so a stray id cannot strike off someone else's row.
-  const { count } = await prisma.entry.updateMany({
-    where: { id: entryId, customerId, deletedAt: null },
-    data: { deletedAt: new Date() },
-  });
+  let count: number;
+  try {
+    ({ count } = await prisma.entry.updateMany({
+      where: { id: entryId, customerId, deletedAt: null },
+      data: { deletedAt: new Date() },
+    }));
+  } catch (error) {
+    console.error("deleteEntry failed", error);
+    return { deleted: false, error: "Could not delete. Check the connection." };
+  }
 
   if (count === 0) return { deleted: false, error: "Entry not found" };
 
