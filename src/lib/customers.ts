@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { outstandingPaise } from "@/lib/ledger";
+import type { LedgerRowInput } from "@/lib/ledger-rows";
 
 /**
  * Reading customers together with what they owe.
@@ -76,6 +77,26 @@ export async function getCustomer(id: string): Promise<CustomerSummary | null> {
 
   const { entries, ...customer } = row;
   return { ...customer, outstandingPaise: outstandingPaise(entries) };
+}
+
+/** Live entries for one customer, in no particular order. */
+export async function listLedgerEntries(
+  customerId: string,
+): Promise<LedgerRowInput[]> {
+  return prisma.entry.findMany({
+    where: { customerId, deletedAt: null },
+    select: {
+      id: true,
+      type: true,
+      amountPaise: true,
+      note: true,
+      entryDate: true,
+      createdAt: true,
+      paymentStatus: true,
+      deletedAt: true,
+      razorpayLinkUrl: true,
+    },
+  });
 }
 
 /** Does this customer have any entry at all? Archiving is only safe if not. */

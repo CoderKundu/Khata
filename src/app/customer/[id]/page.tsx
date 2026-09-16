@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth";
-import { getCustomer } from "@/lib/customers";
+import { getCustomer, listLedgerEntries } from "@/lib/customers";
+import { buildLedgerRows } from "@/lib/ledger-rows";
 import { formatPaise } from "@/lib/money";
 import { formatPhone } from "@/lib/phone";
+import { Ledger } from "./ledger";
 
 export default async function CustomerPage({
   params,
@@ -13,6 +15,8 @@ export default async function CustomerPage({
   const { id } = await params;
   const customer = await getCustomer(id);
   if (!customer) notFound();
+
+  const rows = buildLedgerRows(await listLedgerEntries(id));
 
   return (
     <main className="flex-1 max-w-md w-full mx-auto pb-28">
@@ -56,10 +60,7 @@ export default async function CustomerPage({
         </div>
       </header>
 
-      {/* Step 4 puts the two action buttons and the entries table here. */}
-      <p className="px-6 py-14 text-center text-ink-soft">
-        Entries will appear here.
-      </p>
+      <Ledger customerId={customer.id} rows={rows} />
     </main>
   );
 }
