@@ -7,18 +7,24 @@ import { formatPaise } from "@/lib/money";
 import { addGoods, recordPayment } from "./entry-actions";
 import { EntryDetailSheet } from "./entry-detail-sheet";
 import { EntrySheet } from "./entry-sheet";
+import { PaymentLinkSheet } from "./payment-link-sheet";
 
 type OpenSheet =
   | { kind: "debit" }
   | { kind: "credit" }
+  | { kind: "link" }
   | { kind: "row"; row: LedgerRow }
   | null;
 
 export function Ledger({
   customerId,
+  customerName,
+  outstandingPaise,
   rows,
 }: {
   customerId: string;
+  customerName: string;
+  outstandingPaise: number;
   rows: LedgerRow[];
 }) {
   const [sheet, setSheet] = useState<OpenSheet>(null);
@@ -40,6 +46,18 @@ export function Ledger({
           className="tap h-14 rounded-xl bg-paid text-white font-semibold active:brightness-90"
         >
           Record payment
+        </button>
+      </div>
+
+      {/* Secondary to the two above: it asks for money rather than recording it. */}
+      <div className="px-4 pb-4">
+        <button
+          type="button"
+          onClick={() => setSheet({ kind: "link" })}
+          className="tap h-12 w-full rounded-xl border border-brand font-semibold
+                     text-brand active:bg-brand/5"
+        >
+          Send payment link
         </button>
       </div>
 
@@ -98,6 +116,15 @@ export function Ledger({
           action={recordPayment}
           submitLabel="Save"
           tone="credit"
+          onClose={close}
+        />
+      ) : null}
+
+      {sheet?.kind === "link" ? (
+        <PaymentLinkSheet
+          customerId={customerId}
+          customerName={customerName}
+          outstandingPaise={outstandingPaise}
           onClose={close}
         />
       ) : null}

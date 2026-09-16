@@ -60,7 +60,12 @@ export default async function CustomerPage({
         </div>
       </header>
 
-      <Ledger customerId={customer.id} rows={rows} />
+      <Ledger
+        customerId={customer.id}
+        customerName={customer.name}
+        outstandingPaise={customer.outstandingPaise}
+        rows={rows}
+      />
     </main>
   );
 }
